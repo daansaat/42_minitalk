@@ -6,14 +6,12 @@
 /*   By: dsaat <dsaat@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/15 10:51:55 by dsaat         #+#    #+#                 */
-/*   Updated: 2022/04/15 13:32:21 by dsaat         ########   odam.nl         */
+/*   Updated: 2022/04/15 18:08:03 by dsaat         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <signal.h>
-
-//static char	*g_message;
 
 static void	error_check(int code)
 {
@@ -62,7 +60,7 @@ int	main(int argc, char **argv)
 	act.sa_sigaction = handle_sigusr;
 	act.sa_flags = SA_SIGINFO | SA_NODEFER;
 	error_check(sigaction(SIGUSR1, &act, NULL));
-	send_char_bit(ft_atoi(argv[1]), argv[2]);
+	send_char_bit(atoi(argv[1]), argv[2]);
 	while (1)
 		pause();
 }
