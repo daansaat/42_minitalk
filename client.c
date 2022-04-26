@@ -6,7 +6,7 @@
 /*   By: dsaat <dsaat@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/15 10:51:55 by dsaat         #+#    #+#                 */
-/*   Updated: 2022/04/15 18:08:03 by dsaat         ########   odam.nl         */
+/*   Updated: 2022/04/26 18:46:15 by dsaat         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static void	send_char_bit(int pid, char *str)
 {
 	static char	*g_message;
 	static int	bitindex = 0;
+	int			bit;
 
 	if (str)
 		g_message = str;
@@ -31,13 +32,11 @@ static void	send_char_bit(int pid, char *str)
 		ft_putstr_fd("message received!\n", 1);
 		exit(EXIT_SUCCESS);
 	}
-	if (*g_message >> bitindex & 1)
-		error_check(kill(pid, SIGUSR1));
-	else
-		error_check(kill(pid, SIGUSR2));
+	bit = *g_message >> bitindex & 1;
 	bitindex = (bitindex + 1) % 8;
 	if (bitindex == 0)
 		g_message++;
+	error_check(kill(pid, SIGUSR1 + bit));
 }
 
 static void	handle_sigusr(int sig, siginfo_t *info, void *ucontext)

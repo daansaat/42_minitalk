@@ -6,7 +6,7 @@
 /*   By: dsaat <dsaat@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/15 10:51:53 by dsaat         #+#    #+#                 */
-/*   Updated: 2022/04/15 12:28:09 by dsaat         ########   odam.nl         */
+/*   Updated: 2022/04/26 18:50:07 by dsaat         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,11 @@ static void	handle_sigusr(int sig, siginfo_t *info, void *ucontext)
 {
 	static char	c = 0;
 	static int	bitindex = 0;
+	int			bit;
 
 	(void) ucontext;
-	if (sig == SIGUSR1)
-		c = c | 1 << bitindex;
+	bit = sig - SIGUSR1;
+	c = c | bit << bitindex;
 	bitindex = (bitindex + 1) % 8;
 	if (bitindex == 0)
 	{
@@ -44,7 +45,6 @@ int	main(void)
 	act.sa_sigaction = handle_sigusr;
 	act.sa_flags = SA_SIGINFO | SA_NODEFER;
 	error_check(sigaction(SIGUSR1, &act, NULL));
-	error_check(sigaction(SIGUSR2, &act, NULL));
 	ft_putstr_fd("pid: ", 1);
 	ft_putnbr_fd(getpid(), 1);
 	ft_putchar_fd('\n', 1);
