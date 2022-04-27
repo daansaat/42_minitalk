@@ -21,21 +21,21 @@ static void	error_check(int code)
 
 static void	send_char_bit(int pid, char *str)
 {
-	static char	*g_message;
+	static char	*message;
 	static int	bitindex = 0;
 	int			bit;
 
 	if (str)
-		g_message = str;
-	if (!*g_message)
+		message = str;
+	if (!*message)
 	{
 		ft_putstr_fd("message received!\n", 1);
 		exit(EXIT_SUCCESS);
 	}
-	bit = *g_message >> bitindex & 1;
+	bit = *message >> bitindex & 1;
 	bitindex = (bitindex + 1) % 8;
 	if (bitindex == 0)
-		g_message++;
+		message++;
 	error_check(kill(pid, SIGUSR1 + bit));
 }
 
