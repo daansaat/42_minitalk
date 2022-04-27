@@ -23,11 +23,10 @@ static void	handle_sigusr(int sig, siginfo_t *info, void *ucontext)
 {
 	static char	c = 0;
 	static int	bitindex = 0;
-	int			bit;
 
 	(void) ucontext;
-	bit = sig - SIGUSR1;
-	c = c | bit << bitindex;
+	if (sig == SIGUSR1)
+		c = c | 1 << bitindex;
 	bitindex = (bitindex + 1) % 8;
 	if (bitindex == 0)
 	{
@@ -45,6 +44,7 @@ int	main(void)
 	act.sa_sigaction = handle_sigusr;
 	act.sa_flags = SA_SIGINFO | SA_NODEFER;
 	error_check(sigaction(SIGUSR1, &act, NULL));
+	error_check(sigaction(SIGUSR2, &act, NULL));
 	ft_putstr_fd("pid: ", 1);
 	ft_putnbr_fd(getpid(), 1);
 	ft_putchar_fd('\n', 1);

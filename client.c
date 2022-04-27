@@ -36,7 +36,10 @@ static void	send_char_bit(int pid, char *str)
 	bitindex = (bitindex + 1) % 8;
 	if (bitindex == 0)
 		message++;
-	error_check(kill(pid, SIGUSR1 + bit));
+	if (bit == 1)
+		error_check(kill(pid, SIGUSR1));
+	else
+		error_check(kill(pid, SIGUSR2));
 }
 
 static void	handle_sigusr(int sig, siginfo_t *info, void *ucontext)
