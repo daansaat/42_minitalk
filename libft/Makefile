@@ -24,7 +24,7 @@ $(NAME): $(OBJS)
 all: 	$(NAME)
 
 %.o: 	%.c	
-		@gcc $(CFLAGS) -o $@ -c $<
+		gcc $(CFLAGS) -o $@ -c $<
 
 bonus:	
 		$(MAKE) EXTRA=OK
