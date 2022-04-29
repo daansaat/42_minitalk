@@ -62,7 +62,7 @@ int	main(int argc, char **argv)
 	act.sa_sigaction = handle_sigusr;
 	act.sa_flags = SA_SIGINFO | SA_NODEFER;
 	error_check(sigaction(SIGUSR1, &act, NULL));
-	send_char_bit(atoi(argv[1]), argv[2]);
+	send_char_bit(ft_atoi(argv[1]), argv[2]);
 	while (1)
 		pause();
 }
